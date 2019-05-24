@@ -11,4 +11,12 @@ new p5(function(app){
         logica.click();
     }
 
+    app.keyTyped = function (){
+        logica.texto();
+    }
+
+    app.keyPressed =function(){
+        logica.eliminar();
+    }
+
 });
