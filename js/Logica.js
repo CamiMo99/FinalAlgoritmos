@@ -295,13 +295,6 @@ class Logica {
 
                         console.log("Juguete Eliminado: " + i);
                     }
-
-                    if (this.app.dist(this.juguetes[i].getX(), this.juguetes[i].getY(), x, y) > 280) {
-                        //Si el usuario 1 esta jugando se le suman puntos 
-                       if(this.noacertado){
-                           this.noacertado.play();
-                       }
-                    }
                 }
 
                 //Cuando el juego del usuario 1 acaba, cambio la pantalla del modal
