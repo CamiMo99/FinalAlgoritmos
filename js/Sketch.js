@@ -1,13 +1,19 @@
 new p5(function(app){
     let logica;
-    app.setup=function(){
-        logica=new Logica(app);
+
+    app.preload = function(){
+        //app.soundFormats('mp3', 'ogg');
     }
-    app.draw= function(){
+
+    app.setup = function(){
+        logica = new Logica(app);
+    }
+
+    app.draw = function(){
         logica.pintar();
     }
 
-    app.mouseClicked=function(){
+    app.mouseClicked = function(){
         logica.click();
     }
 
@@ -15,7 +21,7 @@ new p5(function(app){
         logica.texto();
     }
 
-    app.keyPressed =function(){
+    app.keyPressed = function(){
         logica.eliminar();
     }
 

@@ -1,0 +1,151 @@
+@import url('https://fonts.googleapis.com/css?family=Josefin+Sans:400,600,700&display=swap');
+
+$fuente: 'Josefin Sans',
+sans-serif;
+$azul : #0f126d;
+
+body {
+    background-color: #f2f2f2;
+
+    margin: 0;
+    padding: 0;
+}
+
+header {
+    width: 100%;
+
+    nav {
+        display: flex;
+        flex-direction: row;
+        flex-wrap: nowrap;
+        justify-content: center;
+        align-content: stretch;
+        align-items: flex-start;
+        margin-top: 50px;
+
+        a {
+            color: $azul;
+            text-decoration: none;
+            font-family: $fuente;
+            font-weight: bold;
+            text-align: center;
+            margin: 0 25px;
+        }
+
+        .seleccionado {
+            border-bottom: solid 2px $azul;
+        }
+    }
+}
+
+.conocenos {
+    z-index: 5;
+    position: relative;
+
+    &_contenido {
+        display: inline-flex;
+        flex-direction: column;
+        flex-wrap: nowrap;
+        justify-content: center;
+        align-content: stretch;
+        align-items: center;
+        height: 55vh;
+        margin-left: 20%;
+        p {
+            font-family: $fuente;
+            font-weight: bold;
+            text-align: center;
+            //text-transform: uppercase;
+            line-height: 25px;
+        }
+    }
+}
+
+.conocenos_fondo {
+    position: fixed;
+    bottom: -120px;
+    right: -150px;
+    z-index: 0;
+}
+
+.conocenos_nave{
+    position: fixed;
+    left: 5%;
+    top: 10%;
+}
+
+@media only screen and (min-width:1200px){
+}
+
+@media only screen and (min-width:992px) and (max-width:1200px){
+    
+    .conocenos{
+        &_contenido{
+            margin-left: 10%;
+        }
+    }
+
+    .conocenos_fondo {
+        position: fixed;
+        bottom: -180px;
+        right: -200px;
+        z-index: 0;
+    }
+    
+    .conocenos_nave{
+        position: fixed;
+        left: 2%;
+        top: 2%;
+        width: 20%;
+    }
+}
+
+@media only screen and (min-width:768px) and (max-width:992px){
+    .conocenos{
+        &_contenido{
+            margin-left: 10%;
+        }
+    }
+
+    .conocenos_fondo {
+        position: fixed;
+        bottom: -180px;
+        right: -200px;
+        z-index: 0;
+    }
+    
+    .conocenos_nave{
+        position: fixed;
+        left: 2%;
+        top: 2%;
+        width: 20%;
+    }
+}
+
+
+@media only screen and (max-width:768px){
+    .conocenos{
+        &_contenido{
+            display: flex;
+            flex-direction: column;
+            flex-wrap: nowrap;
+            justify-content: center;
+            align-content: stretch;
+            align-items: center;
+            height: 55vh;
+            width: 100%;
+            margin-left: 0;
+        }
+    }
+
+    .conocenos_fondo {
+        position: fixed;
+        bottom: -350px;
+        right: -200px;
+        z-index: 0;
+    }
+    
+    .conocenos_nave{
+        display: none;
+    }
+}

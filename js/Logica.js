@@ -21,11 +21,14 @@ class Logica {
         this.escribirDos = false;
 
         this.fuente = this.app.loadFont("./fonts/JosefinSans-Regular.ttf");
-
         this.termino = false;
         this.juguetes = [];
         this.encontrados = [];
 
+        //Sonido
+        this.app.soundFormats('mp3','wav');
+        this.acertado = this.app.loadSound('./sonido/acertado.mp3');
+        
         //Varibles del tiempo
         this.mil = 0;
         this.seg = 0;
@@ -40,12 +43,11 @@ class Logica {
         this.pantallas.final = this.app.loadImage("./img/juego/final-100.jpg");
 
         //Creo los juguetes
+        this.letrasJuguetes = ["Telescopio", "Bloques", "Cámara", "Aeroplano", "Astronauta", "Avioneta", "Bailarina", "Barco", "Cometa", "Dragón amarillo", "Dragón sin alas", "Jirafa","Militar","Soldado rojo","Nube","Oso","Peluche de conejo","Pestañas","Pistola de agua","Rex","Robot","Soldado verde","Tambor","Transformer verde"];
         for (let i = 0; i < 24; i++) {
-            this.juguetes[i] = new Juguete(this.app, this.app.random(10, 1100), this.app.random(300, 600), this.app.loadImage("./img/juego/juguete" + i + ".png"));
+            this.juguetes[i] = new Juguete(this.app, this.app.random(10, 1100), this.app.random(300, 600), this.app.loadImage("./img/juego/juguete" + i + ".png"), this.letrasJuguetes[i], i);
             console.log(typeof this.juguetes[i])
-
         }
-
 
     }
 
@@ -93,7 +95,7 @@ class Logica {
                 //Pinto el tiempo
                 this.app.textFont(this.fuente);
                 this.app.fill(255, 255, 255);
-                this.app.textSize(15);
+                this.app.textSize(20);
                 this.app.textAlign(this.app.CENTER);
 
                 //Condicion para mostrar el tiempo en formato "00:00"
@@ -102,12 +104,13 @@ class Logica {
                 }
 
                 //Pinto el puntaje
-                this.app.text("00:" + tiempowith, 1163, 47);
-                this.app.text(this.puntosUno + " Puntos", 1163, 107);
+                this.app.text("00:" + tiempowith, 1163, 60);
+                this.app.text(this.puntosUno, 1163, 114);
 
                 //Pinto los juguetes
-                for (let i = 0; i < 24; i++) {
+                for (let i = 0; i < this.juguetes.length; i++) {
                     this.juguetes[i].pintar();
+                    this.juguetes[i].pintarPalabras();
                 }
 
                 //Control para saber cuando se termina el turno del jugador 1
@@ -127,7 +130,7 @@ class Logica {
                     tiempowith = "00";
                     tiempo = 0;
 
-                    for (let i = 0; i < 24; i++) {
+                    for (let i = 0; i < this.juguetes.length; i++) {
                         this.juguetes[i].setMostrar(true);
                     }
                 }
@@ -161,12 +164,13 @@ class Logica {
                 }
 
                 //Pinto el puntaje
-                this.app.text("00:" + tiempowith, 1163, 47);
-                this.app.text(this.puntosDos + " Puntos", 1163, 107);
+                this.app.text("00:" + tiempowith, 1163, 60);
+                this.app.text(this.puntosDos, 1163, 114);
 
                 //Pinto los juguetes
-                for (let i = 0; i < 24; i++) {
+                for (let i = 0; i < this.juguetes.length; i++) {
                     this.juguetes[i].pintar();
+                    this.juguetes[i].pintarPalabras();
                 }
 
                 //Control para saber cuando el jugador 2 termina la partida
@@ -262,20 +266,32 @@ class Logica {
                 //Interacción, cuando le doy click a un juguete lo oculto y sumo puntos en el usuario
                 for (let i = 0; i < 24; i++) {
                     if (this.app.dist(this.juguetes[i].getX(), this.juguetes[i].getY(), x, y) < 30) {
-                        //Si el usuario 1 esta jugando se le suman puntos
+                        //Si el usuario 1 esta jugando se le suman puntos 
+                       
                         if (this.jugando == 1 && this.juguetes[i].getMostrar()) {
                             this.puntosUno += 5;
+                            if(this.juguetes[i].getMostrar){
+                                if(this.acertado){
+                                    this.acertado.play();
+                                }
+                            }
                         }
 
                         //Si el usuario 2 esta jugando se le suman puntos
                         if (this.jugando == 2 && this.juguetes[i].getMostrar()) {
                             this.puntosDos += 5;
+                            if(this.juguetes[i].getMostrar){
+                                if(this.acertado){
+                                    this.acertado.play();
+                                }
+                            }
                         }
 
                         //"Eliminar" juguetes del juego
                         if (this.juguetes[i].getMostrar()) {
                             this.juguetes[i].setMostrar(false);
                         }
+
                         console.log("Juguete Eliminado: " + i);
                     }
                 }
@@ -284,6 +300,11 @@ class Logica {
                 if (this.termino) {
                     if (x >= 567 && x <= 621 && y >= 414 && y <= 467) {
                         console.log("cambio");
+                        for (let i = 0; i < 24; i++) {
+                            this.juguetes[i] = new Juguete(this.app, this.app.random(10, 1100), this.app.random(300, 600), this.app.loadImage("./img/juego/juguete" + i + ".png"), this.letrasJuguetes[i], i);
+                            console.log(typeof this.juguetes[i])
+                        }
+                
                         this.pantalla = 3;
                     }
                 }
@@ -296,11 +317,21 @@ class Logica {
                         //Si el usuario 1 esta jugando se le suman puntos
                         if (this.jugando == 1 && this.juguetes[i].getMostrar()) {
                             this.puntosUno += 5;
+                            if(this.juguetes[i].getMostrar){
+                                if(this.acertado){
+                                    this.acertado.play();
+                                }
+                            }
                         }
 
                         //Si el usuario 2 esta jugando se le suman puntos
                         if (this.jugando == 2 && this.juguetes[i].getMostrar()) {
                             this.puntosDos += 5;
+                            if(this.juguetes[i].getMostrar){
+                                if(this.acertado){
+                                    this.acertado.play();
+                                }
+                            }
                         }
 
                         //"Eliminar" juguetes del juego
@@ -330,6 +361,11 @@ class Logica {
                     this.ganadorPuntos = 0;
                     this.perdedor = "";
                     this.perdedorPuntos = 0;
+                    for (let i = 0; i < 24; i++) {
+                        this.juguetes[i] = new Juguete(this.app, this.app.random(10, 1100), this.app.random(300, 600), this.app.loadImage("./img/juego/juguete" + i + ".png"), this.letrasJuguetes[i], i);
+                        console.log(typeof this.juguetes[i])
+                    }
+            
                 }
                 break;
         }
