@@ -28,6 +28,7 @@ class Logica {
         //Sonido
         this.app.soundFormats('mp3','wav');
         this.acertado = this.app.loadSound('./sonido/acertado.mp3');
+        this.noacertado = this.app.loadSound('./sonido/noAcerto.mp3');
         
         //Varibles del tiempo
         this.mil = 0;
@@ -45,7 +46,7 @@ class Logica {
         //Creo los juguetes
         this.letrasJuguetes = ["Telescopio", "Bloques", "Cámara", "Aeroplano", "Astronauta", "Avioneta", "Bailarina", "Barco", "Cometa", "Dragón amarillo", "Dragón sin alas", "Jirafa","Militar","Soldado rojo","Nube","Oso","Peluche de conejo","Pestañas","Pistola de agua","Rex","Robot","Soldado verde","Tambor","Transformer verde"];
         for (let i = 0; i < 24; i++) {
-            this.juguetes[i] = new Juguete(this.app, this.app.random(10, 1100), this.app.random(300, 600), this.app.loadImage("./img/juego/juguete" + i + ".png"), this.letrasJuguetes[i], i);
+            this.juguetes[i] = new Juguete(this.app, this.app.random(10, 980), this.app.random(300, 600), this.app.loadImage("./img/juego/juguete" + i + ".png"), this.letrasJuguetes[i], i);
             console.log(typeof this.juguetes[i])
         }
 
@@ -294,6 +295,13 @@ class Logica {
 
                         console.log("Juguete Eliminado: " + i);
                     }
+
+                    if (this.app.dist(this.juguetes[i].getX(), this.juguetes[i].getY(), x, y) > 280) {
+                        //Si el usuario 1 esta jugando se le suman puntos 
+                       if(this.noacertado){
+                           this.noacertado.play();
+                       }
+                    }
                 }
 
                 //Cuando el juego del usuario 1 acaba, cambio la pantalla del modal
@@ -301,7 +309,7 @@ class Logica {
                     if (x >= 567 && x <= 621 && y >= 414 && y <= 467) {
                         console.log("cambio");
                         for (let i = 0; i < 24; i++) {
-                            this.juguetes[i] = new Juguete(this.app, this.app.random(10, 1100), this.app.random(300, 600), this.app.loadImage("./img/juego/juguete" + i + ".png"), this.letrasJuguetes[i], i);
+                            this.juguetes[i] = new Juguete(this.app, this.app.random(10, 980), this.app.random(300, 600), this.app.loadImage("./img/juego/juguete" + i + ".png"), this.letrasJuguetes[i], i);
                             console.log(typeof this.juguetes[i])
                         }
                 
@@ -362,7 +370,7 @@ class Logica {
                     this.perdedor = "";
                     this.perdedorPuntos = 0;
                     for (let i = 0; i < 24; i++) {
-                        this.juguetes[i] = new Juguete(this.app, this.app.random(10, 1100), this.app.random(300, 600), this.app.loadImage("./img/juego/juguete" + i + ".png"), this.letrasJuguetes[i], i);
+                        this.juguetes[i] = new Juguete(this.app, this.app.random(10, 980), this.app.random(300, 600), this.app.loadImage("./img/juego/juguete" + i + ".png"), this.letrasJuguetes[i], i);
                         console.log(typeof this.juguetes[i])
                     }
             
